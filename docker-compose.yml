@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  richlife-eurekaserver:
+      build:
+        context: .
+        dockerfile: RichLife-EurekaServer/Dockerfile
+      ports:
+        - "8761:8761"
+      volumes:
+        - ./ssl:/app/resources/ssl
+      networks:
+        - richlife-networks
+  richlife-gateway:
+    build:
+      context: .
+      dockerfile: RichLife-Gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./ssl:/app/resources/ssl
+    networks:
+      - richlife-networks
+    depends_on:
+      - richlife-eurekaserver
+  richlife-topic:
+    build:
+      context: .
+      dockerfile: RichLife-Topic/Dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./ssl:/app/resources/ssl
+    environment:
+      - SPRING_CONFIG_LOCATION=classpath:/application.properties
+    networks:
+      - richlife-networks
+    depends_on:
+      - richlife-eurekaserver
+
+  richlife-user:
+    build:
+      context: .
+      dockerfile: RichLife-User/Dockerfile
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./ssl:/app/resources/ssl
+    environment:
+      - SPRING_CONFIG_LOCATION=classpath:/application.properties
+    networks:
+      - richlife-networks
+    depends_on:
+      - richlife-eurekaserver
+networks:
+  richlife-networks:
+    driver: bridge

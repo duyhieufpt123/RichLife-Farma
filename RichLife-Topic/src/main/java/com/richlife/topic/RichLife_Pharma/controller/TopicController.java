@@ -5,6 +5,7 @@ import com.richlife.topic.RichLife_Pharma.dto.request.CreateTopicRequest;
 import com.richlife.topic.RichLife_Pharma.dto.response.CreateTopicResponse;
 import com.richlife.topic.RichLife_Pharma.dto.response.ResponseData;
 import com.richlife.topic.RichLife_Pharma.service.TopicService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

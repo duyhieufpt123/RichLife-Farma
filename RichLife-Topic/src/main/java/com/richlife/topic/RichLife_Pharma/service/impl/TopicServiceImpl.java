@@ -10,6 +10,7 @@ import com.richlife.topic.RichLife_Pharma.repository.TopicRepository;
 import com.richlife.topic.RichLife_Pharma.service.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -19,6 +20,7 @@ public class TopicServiceImpl implements TopicService {
     private final TopicRepository topicRepository;
 
     @Override
+    @Transactional
     public ResponseData<CreateTopicResponse> createTopic(CreateTopicRequest request) {
         try {
             Topic existTopic = topicRepository.findByTitle(request.getTitle());
@@ -45,8 +47,8 @@ public class TopicServiceImpl implements TopicService {
                     .build();
 
             return new ResponseData<>(ResponseCode.C200.getCode(), "Tạo topic thành công", response);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException(ex);
         }
         catch (Exception e) {
             return new ResponseData<>(ResponseCode.C204.getCode(), "Có lỗi xảy ra trong quá trình tạo topic");
